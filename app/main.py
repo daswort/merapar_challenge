@@ -9,6 +9,7 @@ load_dotenv()
 app = FastAPI()
 templates = Jinja2Templates(directory="app/templates")
 
+
 def get_dynamic_string():
     value = os.getenv("DYNAMIC_STRING")
     if not value:
@@ -23,11 +24,10 @@ async def root_redirect():
         status_code=status.HTTP_307_TEMPORARY_REDIRECT,
     )
 
+
 @app.get("/dynamic-string", response_class=HTMLResponse)
 async def read_item(request: Request):
     current_value = get_dynamic_string()
-    return templates.TemplateResponse("index.html", {
-        "request": request, 
-        "dynamic_string": current_value
-    })
-
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "dynamic_string": current_value}
+    )

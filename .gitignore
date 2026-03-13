@@ -2,6 +2,8 @@
 .venv/
 venv/
 
+.ruff_cache/
+
 # Cache de Python
 __pycache__/
 *.py[cod]
