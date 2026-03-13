@@ -1,0 +1,14 @@
+# Entorno virtual
+.venv/
+venv/
+
+# Cache de Python
+__pycache__/
+*.py[cod]
+
+# Variables de entorno locales
+.env
+
+# Archivos locales del sistema/editor
+.DS_Store
+.vscode/
