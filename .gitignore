@@ -2,11 +2,19 @@
 .venv/
 venv/
 
+# Lambda build artifacts
+build/
+
+# Infracost output
+.infracost/
+
 # Terraform files
 .terraform/
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+tfplan
+app.zip
 
 # Cache
 __pycache__/
