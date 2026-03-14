@@ -9,7 +9,7 @@ resource "aws_lambda_function" "merapar_app" {
   function_name    = "merapar-fullstack-challenge"
   role             = aws_iam_role.lambda_role.arn 
   handler          = "main.handler"
-  runtime          = "python3.11"
+  runtime          = "python3.12"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
   environment {
