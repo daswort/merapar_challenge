@@ -1,16 +1,23 @@
-# Entorno virtual
+# Virtual env
 .venv/
 venv/
 
-.ruff_cache/
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 
-# Cache de Python
+# Cache
 __pycache__/
 *.py[cod]
+.ruff_cache/
+.pytest_cache/
 
-# Variables de entorno locales
+
+# env files
 .env
 
-# Archivos locales del sistema/editor
+# Local files
 .DS_Store
 .vscode/
