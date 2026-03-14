@@ -1,16 +1,10 @@
-data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_dir  = "${path.module}/../../app"
-  output_path = "${path.module}/app.zip"
-}
-
 resource "aws_lambda_function" "merapar_app" {
-  filename         = data.archive_file.lambda_zip.output_path
+  filename         = "${path.module}/app.zip"
   function_name    = "merapar-fullstack-challenge"
   role             = aws_iam_role.lambda_role.arn 
   handler          = "main.handler"
   runtime          = "python3.12"
-  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
+  source_code_hash = filebase64sha256("${path.module}/app.zip")
 
   environment {
     variables = {
