@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda_role" {
-  name = "merapar_lambda_role"
+  name = "${var.project_name}-lambda-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -12,7 +12,7 @@ resource "aws_iam_role" "lambda_role" {
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-  name = "merapar_lambda_policy"
+  name = "${var.project_name}-lambda-policy"
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
@@ -21,7 +21,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
       {
         Action   = ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"]
         Effect   = "Allow"
-        Resource = "arn:aws:logs:*:*:*"
+        Resource = aws_cloudwatch_log_group.lambda_logs.arn
       },
       {
         Action   = ["ssm:GetParameter"]

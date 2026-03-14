@@ -8,12 +8,11 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region = var.aws_region
   default_tags {
     tags = {
-      Project   = "MeraparChallenge"
-      Owner     = "Jacob Vidal"
-      CostCenter = "InterviewProcess"
+      Project     = var.project_name
+      Environment = var.environment
     }
   }
 }

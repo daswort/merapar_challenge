@@ -1,10 +1,6 @@
 resource "aws_ssm_parameter" "dynamic_string" {
-  name        = "/merapar/dynamic_string"
-  description = "Variable dinamica para el reto de Merapar"
+  name        = "/${var.project_name}/dynamic_string"
+  description = "Dynamic string for ${var.project_name}"
   type        = "String"
-  value       = "The word of the day is Merapar"
-
-  tags = {
-    Project = "MeraparChallenge"
-  }
+  value       = var.ssm_parameter_value
 }
