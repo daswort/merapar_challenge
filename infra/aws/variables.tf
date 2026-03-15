@@ -32,3 +32,8 @@ variable "budget_notification_email" {
   description = "Email to receive budget alerts"
   type        = string
 }
+
+variable "github_repo" {
+  description = "GitHub repository (owner/repo) allowed to assume the CI/CD role"
+  type        = string
+}
