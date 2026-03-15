@@ -41,4 +41,5 @@ async def read_item(request: Request):
         request, "index.html", {"dynamic_string": current_value}
     )
 
+
 handler = Mangum(app)
