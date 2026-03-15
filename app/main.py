@@ -14,10 +14,16 @@ templates = Jinja2Templates(directory=TEMPLATE_DIR)
 ssm = boto3.client("ssm", region_name=AWS_REGION)
 
 
+DEFAULT_STRING = "No dynamic string configured"
+
+
 def get_dynamic_string():
     param_name = os.environ.get("PARAMETER_NAME", "/merapar/dynamic_string")
-    parameter = ssm.get_parameter(Name=param_name, WithDecryption=False)
-    return parameter["Parameter"]["Value"]
+    try:
+        parameter = ssm.get_parameter(Name=param_name, WithDecryption=False)
+        return parameter["Parameter"]["Value"]
+    except Exception:
+        return DEFAULT_STRING
 
 
 @app.get("/", include_in_schema=False)
@@ -32,7 +38,7 @@ async def root_redirect():
 async def read_item(request: Request):
     current_value = get_dynamic_string()
     return templates.TemplateResponse(
-        "index.html", {"request": request, "dynamic_string": current_value}
+        request, "index.html", {"dynamic_string": current_value}
     )
 
 handler = Mangum(app)
