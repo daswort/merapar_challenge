@@ -1,6 +1,6 @@
 aws_region                = "us-east-2"
 project_name              = "merapar-challenge"
-environment               = "Dev"
+environment               = "production"
 ssm_parameter_value       = "The word of the day is Merapar"
 budget_limit              = "1.0"
 budget_notification_email = "daswort@outlook.com"
