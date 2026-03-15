@@ -2,6 +2,8 @@
 
 A serverless web application that serves an HTML page displaying a dynamic string that can be changed at runtime without redeployment. Built with **Python (FastAPI)** on **AWS Lambda**, provisioned entirely with **Terraform**.
 
+> **Note**: This project is a Proof of Concept (PoC) for a technical challenge. The CI/CD pipelines are included to demonstrate production-ready practices, but have not been activated in a real environment. Infrastructure is provisioned locally with Terraform; CI/CD only deploys application code.
+
 **Live URL**: After deployment, Terraform outputs the public Function URL.
 
 ## Architecture
@@ -39,6 +41,9 @@ The application reads a dynamic string from AWS Systems Manager Parameter Store 
 │   ├── variables.tf          # Parameterized configuration
 │   ├── terraform.tfvars      # Environment-specific values
 │   └── outputs.tf            # Function URL output
+├── .github/workflows/
+│   ├── ci.yml                # PR: lint → test
+│   └── cd.yml                # Merge to main: package → deploy to Lambda
 ├── Makefile                  # Build, test, package, deploy targets
 ├── requirements.txt          # Production dependencies
 └── requirements-dev.txt      # Development dependencies
@@ -50,7 +55,15 @@ The application reads a dynamic string from AWS Systems Manager Parameter Store 
 
 - Python 3.12+, Terraform 1.0+, AWS CLI configured, `zip` utility
 
-### Deploy
+### Deploy Infrastructure (one-time, local)
+
+```bash
+cd infra/aws
+terraform init
+terraform apply       # Review plan, then confirm
+```
+
+### Deploy Application Code
 
 ```bash
 make install          # Install dependencies
@@ -118,11 +131,12 @@ Function URL provides a free HTTPS endpoint with no additional infrastructure. F
 
 5. **Budget alert**: A $1 USD monthly budget with email notification demonstrates cost awareness, even for a challenge.
 
+6. **CI/CD (GitHub Actions)**: Two workflows — CI runs lint and tests on PRs as a quality gate; CD builds the Lambda ZIP and deploys it directly via `aws lambda update-function-code` on merge to main. Infrastructure changes are applied locally with Terraform, keeping the pipeline simple and avoiding the need for remote state.
+
 ## Improvements With More Time
 
 **Infrastructure**:
-- Remote Terraform state (S3 + DynamoDB) for team collaboration and state locking
-- CI/CD pipeline (GitHub Actions): `fmt` → `validate` → `plan` on PR, `apply` on merge
+- Remote Terraform state (S3 + DynamoDB) for team collaboration and CI/CD `terraform apply`
 - Custom domain via Route 53 + ACM certificate
 
 **Application**:
