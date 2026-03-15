@@ -6,7 +6,7 @@ PORT ?= 8000
 
 .DEFAULT_GOAL := help
 
-.PHONY: help venv install install-prod install-dev run dev test lint format check clean package
+.PHONY: help venv install install-prod install-dev run dev test lint format check clean package deploy
 
 help:
 	@echo "Available targets:"
@@ -22,6 +22,7 @@ help:
 	@echo "  make check     - Run lint and tests"
 	@echo "  make clean     - Remove cache and build artifacts"
 	@echo "  make package   - Build Lambda deployment ZIP"
+	@echo "  make deploy    - Build package and run terraform plan"
 
 venv:
 	@if [ ! -d .venv ]; then python3 -m venv .venv; fi
@@ -63,5 +64,9 @@ package: clean
 	$(PIP) install -r requirements.txt -t build/
 	cp -r app/* build/
 	rm -rf build/__pycache__
+	rm -f infra/aws/app.zip
 	cd build && zip -r ../infra/aws/app.zip . -x '__pycache__/*'
 	rm -rf build/
+
+deploy: package
+	cd infra/aws && terraform plan
