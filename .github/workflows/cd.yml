@@ -18,7 +18,6 @@ concurrency:
 
 env:
   PYTHON_VERSION: "3.12"
-  LAMBDA_FUNCTION_NAME: merapar-challenge-app
   AWS_REGION: us-east-2
 
 jobs:
@@ -44,12 +43,12 @@ jobs:
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
-            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
             --zip-file fileb://infra/aws/app.zip \
             --region ${{ env.AWS_REGION }}
 
       - name: Wait for update
         run: |
           aws lambda wait function-updated \
-            --function-name ${{ env.LAMBDA_FUNCTION_NAME }} \
+            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
             --region ${{ env.AWS_REGION }}
