@@ -1,4 +1,6 @@
+import logging
 import os
+
 import boto3
 
 from fastapi import FastAPI, Request, status
@@ -12,6 +14,7 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 app = FastAPI()
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
 ssm = boto3.client("ssm", region_name=AWS_REGION)
+logger = logging.getLogger(__name__)
 
 
 DEFAULT_STRING = "No dynamic string configured"
@@ -23,6 +26,7 @@ def get_dynamic_string():
         parameter = ssm.get_parameter(Name=param_name, WithDecryption=False)
         return parameter["Parameter"]["Value"]
     except Exception:
+        logger.exception("Failed to fetch SSM parameter '%s'", param_name)
         return DEFAULT_STRING
 
 
