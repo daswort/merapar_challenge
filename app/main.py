@@ -1,3 +1,5 @@
+"""FastAPI application that serves a dynamic string from AWS SSM Parameter Store."""
+
 import logging
 import os
 
