@@ -33,7 +33,7 @@ resource "aws_iam_role_policy" "github_actions" {
     Version = "2012-10-17"
     Statement = [{
       Effect   = "Allow"
-      Action   = ["lambda:UpdateFunctionCode", "lambda:GetFunction"]
+      Action   = ["lambda:UpdateFunctionCode", "lambda:GetFunction", "lambda:GetFunctionConfiguration"]
       Resource = aws_lambda_function.merapar_app.arn
     }]
   })
