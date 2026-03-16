@@ -1,6 +1,10 @@
 resource "aws_iam_openid_connect_provider" "github" {
-  url             = "https://token.actions.githubusercontent.com"
-  client_id_list  = ["sts.amazonaws.com"]
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
+
+  # Required by API but not used for validation.
+  # Since July 2023, AWS validates GitHub OIDC tokens using a trusted CA library
+  # instead of certificate thumbprints. See: https://github.blog/changelog/2023-06-27-github-actions-update-on-oidc-integration-with-aws/
   thumbprint_list = ["ffffffffffffffffffffffffffffffffffffffff"]
 }
 
