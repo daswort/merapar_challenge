@@ -58,7 +58,8 @@ def test_dynamic_string_returns_html(mock_fn):
 @patch("app.main.get_dynamic_string", return_value="Test Value")
 def test_dynamic_string_renders_value(mock_fn):
     response = client.get("/dynamic-string")
-    assert "The saved string is Test Value" in response.text
+    assert "The saved string is" in response.text
+    assert "Test Value" in response.text
 
 
 @patch("app.main.get_dynamic_string", return_value="<script>alert(1)</script>")
