@@ -15,6 +15,10 @@ resource "aws_lambda_function" "merapar_app" {
       PARAMETER_NAME = aws_ssm_parameter.dynamic_string.name
     }
   }
+
+  lifecycle {
+    ignore_changes = [filename, source_code_hash]
+  }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_logs" {
